@@ -9,7 +9,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        int i = 3;
+        int i = 4;
         if (i == 1)
         {
 
@@ -37,7 +37,8 @@ public class Program
             }
             //
         }
-        else if (i == 3) { 
+        else if (i == 3)
+        {
             //fonte de dados 
             IEnumerable<int> nums = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             //query expreção
@@ -46,8 +47,40 @@ public class Program
             //                 select n;
             //expressão lambda
             var result = nums.Where(n => n % 2 == 0).ToList();
-            
+
             foreach (int n in result) { Console.WriteLine(n); };
+        }
+        else if (i == 4) {
+            //linq com lambda
+            Category c1 = new Category(1,"Electronics", 1);
+            Category c2 = new Category(2,"Computers", 2);
+            Category c3 = new Category(3,"TV", 3);
+            List<Product> products = new List<Product>();
+            products.Add(new Product(1, "TV", 900.00, 1000.00) { Category = c1 });
+            products.Add(new Product(2, "Mouse", 50.00, 100.00) { Category = c2 });
+            products.Add(new Product(3, "Tablet", 350.50, 500.00) { Category = c3 });
+            products.Add(new Product(4, "HD Case", 80.90, 100.00) { Category = c1 });
+            products.Add(new Product(5, "Monitor", 300.00, 400.00) { Category = c2 });
+            products.Add(new Product(6, "Printer", 200.00, 300.00) { Category = c3 });
+
+            var resp = products.Where(p => p.Price < 500).Select(p=>p.Nome);
+            Printer("Produtos com preço menor que 500", resp);
+            var resp2 = products.Where(p => p.Category.Tier == 1).Select(p => new { p.Nome, p.Price });
+            Printer("Produtos com categoria 1", resp2);
+            var resp3 = products.Where(p => p.Category.Tier == 1).Select(p => new { p.Nome, p.Price }).OrderByDescending(p => p.Price);
+            Printer("Produtos com categoria 1 ordenados por preço decrescente", resp3);
+            var resp4 = products.Where(p => p.Category.Tier == 1).Select(p => new { p.Nome, p.Price }).OrderByDescending(p => p.Price).FirstOrDefault();
+            Console.WriteLine(resp4);
+            var resp5 = products.Max(p => p.Price);
+            Console.WriteLine("Maior preço: " + resp5);
+
+        }
+    }
+    private static void Printer<T>(string msg,IEnumerable<T> colection) {
+        Console.WriteLine(msg);
+        foreach (T obj in colection)
+        {
+            Console.WriteLine(obj);
         }
     }
     private static bool RemoveValorMaiorQue(Product p)
