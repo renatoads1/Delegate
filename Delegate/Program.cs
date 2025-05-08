@@ -25,10 +25,17 @@ public class Program
             prod.Add(new Product("HD Case", 80.90));
 
             prod.RemoveAll(RemoveValorMaiorQue);
+            //usando action
+            prod.ForEach(UpdatePreceo);
         }
     }
     private static bool RemoveValorMaiorQue(Product p)
     {
         return p.Valor > 100;
+    }
+
+    private static void UpdatePreceo(Product p)
+    {
+        p.Valor += p.Valor * 0.1;
     }
 }
