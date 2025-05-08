@@ -8,7 +8,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        int i = 1;
+        int i = 2;
         if (i == 1)
         {
 
@@ -27,6 +27,13 @@ public class Program
             prod.RemoveAll(RemoveValorMaiorQue);
             //usando action
             prod.ForEach(UpdatePreceo);
+            //delegate Func
+            List<string> list = prod.Select(UpdateNome).ToList();
+            foreach (string s in list)
+            {
+                Console.WriteLine(s);
+            }
+            //
         }
     }
     private static bool RemoveValorMaiorQue(Product p)
@@ -37,5 +44,9 @@ public class Program
     private static void UpdatePreceo(Product p)
     {
         p.Valor += p.Valor * 0.1;
+    }
+    private static string UpdateNome(Product p)
+    {
+        return p.Nome.ToUpper();
     }
 }
